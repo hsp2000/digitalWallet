@@ -1,6 +1,7 @@
 class Wallet:
     def __init__(self, name):
         
+        
         self.name = name
         self.balance = 0
         self.history = []
@@ -27,19 +28,28 @@ class Wallet:
         print(f"Balance: {self.balance}")
 
     def receive_money(self, amount, sender):
-        self.balance += amount
-        self.history.append(f"Received {amount} from {sender}")
+        if sender== self.name:
+            print("cannot send money to your own account")
+        else:
+                if amount>0:
+                    self.balance += amount
+                    self.history.append(f"Received {amount} from {sender}")
+                else:
+                    print("an error has occured.transaction cancelled")
 
     def transfer_money(self, amount, receiver_wallet):
-        if amount <= 0:
-            print("Amount must be positive")
-        elif amount > self.balance:
-            print("Insufficient funds")
+        if receiver_wallet== self.name:
+            print("cannot send money to your own account")
         else:
-            self.balance -= amount
-            receiver_wallet.receive_money(amount, self.name)
-            self.history.append(f"Transferred {amount} to {receiver_wallet.name}")
-            print("Transfer successful")
+            if amount <= 0:
+                print("Amount must be positive")
+            elif amount > self.balance:
+                print("Insufficient funds")
+            else:
+                self.balance -= amount
+                receiver_wallet.receive_money(amount, self.name)
+                self.history.append(f"Transferred {amount} to {receiver_wallet.name}")
+                print("Transfer successful")
 
     def view_transaction_history(self):
         for record in self.history:

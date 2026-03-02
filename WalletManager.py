@@ -22,10 +22,10 @@ class WalletManager:
             print("Wallet already exists")
 
     def add_money(self, name, amount):
-        if self.wallet_exists(name):
+        if self.wallet_exists(name) and amount>0:
             self.wallets[name].add_money(amount)
         else:
-            print("Wallet not found")
+            print("Wallet not found, or negative funds")
 
     def spend_money(self, name, amount):
         if self.wallet_exists(name):

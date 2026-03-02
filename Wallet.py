@@ -1,5 +1,6 @@
 class Wallet:
     def __init__(self, name):
+        
         self.name = name
         self.balance = 0
         self.history = []
@@ -39,3 +40,8 @@ class Wallet:
             receiver_wallet.receive_money(amount, self.name)
             self.history.append(f"Transferred {amount} to {receiver_wallet.name}")
             print("Transfer successful")
+
+    def view_transaction_history(self):
+        for record in self.history:
+            print(f"- {record}")
+     

@@ -71,7 +71,7 @@ class Wallet:
             print("Please login first")
             return
 
-        if receiver_wallet.name == self.name:
+        if receiver_wallet is self:
             print("Cannot send money to your own account")
 
         elif amount <= 0:

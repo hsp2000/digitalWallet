@@ -94,3 +94,7 @@ class Wallet:
 
         for record in self.history:
             print(f"- {record}")
+
+    def logout(self):
+        self.loggedin=False 
+        print(f"{self.name} has been logged out.")

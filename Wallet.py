@@ -1,5 +1,5 @@
 import hashlib
-
+from Log import Log
 class Wallet:
 
     def __init__(self, name, password):
@@ -8,7 +8,7 @@ class Wallet:
         self.name = name
         self.passwordhash = self.hash_password(password)
         self.balance = 0
-        self.history = []
+        self.history = Log(name)
 
     def hash_password(self, password):
         return hashlib.sha256(password.encode()).hexdigest()
@@ -28,9 +28,11 @@ class Wallet:
             return
 
         if amount > 0:
-            self.balance += amount
-            self.history.append(f"Added {amount}")
-            print("Money added")
+                self.balance += amount
+                self.history.add_history(4,"Added"+str(amount))
+                print("Money added")
+
+            
         else:
             print("Amount must be positive")
 
@@ -47,9 +49,16 @@ class Wallet:
             print("Insufficient funds")
 
         else:
-            self.balance -= amount
-            self.history.append(f"Spent {amount}")
-            print("Money spent")
+            print("categories")
+            print("1 -> home")
+            print("2 -> subscriptions")
+            print("3 -> social")
+            print("4 -> etc")
+            categoryno = int(input("enter category number: "))
+            if categoryno in  [1,2,3,4]:
+                self.balance -= amount
+                self.history.add_history(categoryno,f"Spent {amount}")
+                print("Money spent")
 
     def check_balance(self):
 
@@ -63,7 +72,7 @@ class Wallet:
 
         if amount > 0:
             self.balance += amount
-            self.history.append(f"Received {amount} from {sender}")
+            self.history.add_history(4,f"Received {amount} from {sender}")
 
     def transfer_money(self, amount, receiver_wallet):
 
@@ -83,17 +92,11 @@ class Wallet:
         else:
             self.balance -= amount
             receiver_wallet.receive_money(amount, self.name)
-            self.history.append(f"Transferred {amount} to {receiver_wallet.name}")
+            self.history.add_history(4,f"Transferred {amount} to {receiver_wallet.name}")
             print("Transfer successful")
 
     def view_transaction_history(self):
-
-        if not self.loggedin:
-            print("Please login first")
-            return
-
-        for record in self.history:
-            print(f"- {record}")
+        self.history.check_history()
 
     def logout(self):
         self.loggedin=False 
